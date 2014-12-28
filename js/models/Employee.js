@@ -8,10 +8,37 @@ app.Employee = Backbone.Model.extend({
 });
 
 app.Employees = Backbone.Collection.extend({
-    model: app.Employee
+    model: app.Employee,
+    localStorage: new Backbone.LocalStorage('employees-backbone'),
+    sync: function(method, model, options) {
+        if (method == 'read') {
+            console.log('options', options);
+            app.store.findByName(options.data.name, function(data) {
+                options.success(data);
+            });
+        }
+    }
 });
 
 app.MemoryStore = function() {
+    this.findByName = function(searchKey, callback) {
+        var employees = this.employees.filter(function(element) {
+            var fullName = element.firstName + ' ' + element.lastName;
+            var sv = searchKey.toLowerCase();
+            console.log(sv);
+            return fullName.toLowerCase().indexOf(sv) > -1;
+        });
+
+        callLater(callback, employees);
+    }
+
+    var callLater = function(callback, data) {
+        if (callback) {
+            setTimeout(function() {
+                callback(data);
+            });
+        }
+    }
     this.employees = [
         {
             "id": 1,
@@ -209,3 +236,4 @@ app.MemoryStore = function() {
 };
 
 app.store = new app.MemoryStore();
+console.log(app.store.employees);
