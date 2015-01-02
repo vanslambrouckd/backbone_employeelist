@@ -4,6 +4,15 @@ app.Employee = Backbone.Model.extend({
         position: '',
         email: '',
         facebook: ''
+    },
+    localStorage: new Backbone.LocalStorage('employee-backbone'),
+
+    sync: function(method, model, options) {
+        if (method === "read") {
+            app.store.findById(parseInt(this.id), function(data) {
+                options.success(data);
+            });
+        }
     }
 });
 
@@ -25,11 +34,32 @@ app.MemoryStore = function() {
         var employees = this.employees.filter(function(element) {
             var fullName = element.firstName + ' ' + element.lastName;
             var sv = searchKey.toLowerCase();
-            console.log(sv);
             return fullName.toLowerCase().indexOf(sv) > -1;
         });
 
         callLater(callback, employees);
+    }
+
+    this.findById = function(id, callback) {
+        /*
+        var employees = this.employee;
+        var employee = null;
+        employee = _.find(employees, function(employee) {
+            return employee.id == id;
+        });
+        */
+        var employees = this.employees;
+        var employee = null;
+        var l = employees.length;
+        for (var i = 0; i < l; i++) {
+            if (employees[i].id === id) {
+                employee = employees[i];
+                break;
+            }
+        }
+        console.log(employee);
+
+        callLater(callback, employee);
     }
 
     var callLater = function(callback, data) {
@@ -236,4 +266,3 @@ app.MemoryStore = function() {
 };
 
 app.store = new app.MemoryStore();
-console.log(app.store.employees);

@@ -5,13 +5,12 @@ app.EmployeesListView = Backbone.View.extend({
         this.model.on('reset', this.render, this);
     },
     render: function() {
-        console.log('listrender');
         var self = this;
         this.$el.empty();
         _.each(this.model.models, function(employee) {
-            //console.log('EMP', employee.get('firstName'));
+            //console.log('EMP', employee);
             var fullName = employee.get('firstName') + ' ' + employee.get('lastName');
-            self.$el.append('<li>' + fullName + '</li>')
+            self.$el.append('<li><a href="#employees/' + employee.get('id') + '">' + fullName + '</a></li>')
         });
 
         return this;

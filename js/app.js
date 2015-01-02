@@ -7,6 +7,7 @@ var app = {
 
         $.each(views, function(index, view) {
             if (!app[view]) {
+                console.log('js/templates/' + view + '.html');
                 deferreds.push($.get('js/templates/' + view + '.html', function(data) {
                     app[view] = _.template(data);
                 }, 'html'));
@@ -22,14 +23,14 @@ var app = {
 app.Router = Backbone.Router.extend({
     routes: {
         '': 'home',
-        'contact': 'contact'
+        'contact': 'contact',
+        'employees/:id': 'employeeDetails'
     },
     initialize: function() {
         app.pageView = new app.PageView({
             template: app.Page
         });
 
-        console.log('init');
         $('body').html(app.pageView.render().el);
         this.$content = $('#content');
     },
@@ -46,12 +47,37 @@ app.Router = Backbone.Router.extend({
         });
         this.$content.html(app.contactView.render().el);
         app.pageView.selectMenuItem('menuitem-contact');
+    },
+    employeeDetails: function(id) {
+        console.clear();
+        var self = this;
+
+        var employee = new app.Employee({
+            id: id
+        });
+
+        employee.fetch({
+            success: function(data) {
+                //console.log('app.EmployeeDetails', app.EmployeeDetails);
+                //console.log('data', data);
+
+                var employeeDetailsView = new app.EmployeeDetailsView({
+                    template: app.EmployeeDetails,
+                    model: data
+                });
+
+                console.log('firstName', data.firstName);
+
+                console.log('employeeDetailsView 1206', employeeDetailsView.render().el);
+                self.$content.html(employeeDetailsView.render().el);
+            }
+        });
     }
 });
 
 $(document).on("ready", function() {
-    app.loadTemplates(['Page', 'Home', 'Contact'], function() {
-        console.log('templates loaded');
+    app.loadTemplates(['Page', 'Home', 'Contact', 'EmployeeDetails', 'EmployeeSummaryView'], function() {
+        //console.log('templates loaded');
         app.router = new app.Router();
         Backbone.history.start();
     });
