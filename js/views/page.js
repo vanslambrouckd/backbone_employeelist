@@ -70,11 +70,16 @@ app.PageView = Backbone.View.extend({
             }
             // etc
         ];
+
         $('.ui.search', this.el)
             .search({
+                type: 'simple',
                 source: content
-            })
+
+            });
         ;
+
+
         return this;
     },
     selectMenuItem: function(idMenuItem) {
@@ -82,6 +87,7 @@ app.PageView = Backbone.View.extend({
         $('#' + idMenuItem).addClass('active');
     },
     search: function(event) {
+        var self = this;
         event.preventDefault();
         var searchVal = $('#search-box').val();
 
@@ -90,9 +96,23 @@ app.PageView = Backbone.View.extend({
             data: {
                 name: searchVal
             },
-            success: function(data) {}
+            success: function(data) {
+                /*
+                var results = data.toJSON();
+                console.log('results', results);
+
+                $('.ui.search', self.el)
+                    .search({
+                        type: 'simple',
+                        source: results,
+                        searchFields: [
+                            'firstName'
+                        ],
+                        verbose: true
+                    });
+                ;
+                */
+            }
         });
-
-
     }
 });
