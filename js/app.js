@@ -7,7 +7,7 @@ var app = {
 
         $.each(views, function(index, view) {
             if (!app[view]) {
-                console.log('js/templates/' + view + '.html');
+                //console.log('js/templates/' + view + '.html');
                 deferreds.push($.get('js/templates/' + view + '.html', function(data) {
                     app[view] = _.template(data);
                 }, 'html'));
@@ -66,9 +66,7 @@ app.Router = Backbone.Router.extend({
                     model: data
                 });
 
-                console.log('firstName', data.firstName);
-
-                console.log('employeeDetailsView 1206', employeeDetailsView.render().el);
+                //console.log('employeeDetailsView 1206', employeeDetailsView.render().el);
                 self.$content.html(employeeDetailsView.render().el);
             }
         });

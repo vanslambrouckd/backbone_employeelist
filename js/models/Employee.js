@@ -57,8 +57,6 @@ app.MemoryStore = function() {
                 break;
             }
         }
-        console.log(employee);
-
         callLater(callback, employee);
     }
 

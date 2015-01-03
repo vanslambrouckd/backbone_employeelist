@@ -1,6 +1,6 @@
 app.PageView = Backbone.View.extend({
     events: {
-        'keyup #search-box': 'search'
+        //'keyup #search-box': 'search'
     },
     initialize: function(options) {
         this.options = options || {};
@@ -9,16 +9,72 @@ app.PageView = Backbone.View.extend({
         this.searchResultsView = new app.EmployeesListView({
             model: this.searchResults
         });
-        /*
-        $('.ui.search')
-            .search({
-                source: content
-            });
-*/
     },
     render: function() {
-        this.$el.html(this.template);
-        $('#searchresults', this.$el).html(this.searchResultsView.render().el);
+        //this.$el.html(this.template);
+        this.$el.append(this.template);
+        //$('#searchresults', this.$el).html(this.searchResultsView.render().el);
+
+        console.log('renderr');
+        var content = [
+            {
+                title: 'Andorrs'
+            },
+            {
+                title: 'United Arab Emirates'
+            },
+            {
+                title: 'Afghanistas'
+            },
+            {
+                title: 'Antigus'
+            },
+            {
+                title: 'Anguills'
+            },
+            {
+                title: 'Albanis'
+            },
+            {
+                title: 'Armenis'
+            },
+            {
+                title: 'Netherlands Antilles'
+            },
+            {
+                title: 'Angols'
+            },
+            {
+                title: 'Argentins'
+            },
+            {
+                title: 'American Samos'
+            },
+            {
+                title: 'Austris'
+            },
+            {
+                title: 'Australis'
+            },
+            {
+                title: 'Arubs'
+            },
+            {
+                title: 'Aland Islands'
+            },
+            {
+                title: 'Azerbaijas'
+            },
+            {
+                title: 'Bosnis'
+            }
+            // etc
+        ];
+        $('.ui.search', this.el)
+            .search({
+                source: content
+            })
+        ;
         return this;
     },
     selectMenuItem: function(idMenuItem) {
@@ -33,7 +89,10 @@ app.PageView = Backbone.View.extend({
             reset: true,
             data: {
                 name: searchVal
-            }
+            },
+            success: function(data) {}
         });
+
+
     }
 });

@@ -7,10 +7,10 @@ app.EmployeeDetailsView = Backbone.View.extend({
     },
     render: function() {
         var html = this.template(this.model.attributes);
-        console.log('html', html);
+        //console.log('html', html);
         this.$el.html(html);
-        console.log('attributes', this.model.attributes);
-        console.log(this.model.attributes.firstName);
+        //console.log('attributes', this.model.attributes);
+        //console.log(this.model.attributes.firstName);
         /*
         var tpm = new app.EmployeeSummaryView({
             model: this.model
